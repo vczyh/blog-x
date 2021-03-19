@@ -20,5 +20,5 @@ export default {
 </script>
 
 <style scoped>
-
+@import '~mavon-editor/dist/css/index.css';
 </style>
