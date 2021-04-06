@@ -1,45 +1,39 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
     <v-app-bar
       app
-      color="primary"
-      dark
+      color="white"
+      flat
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <v-container class="py-0 fill-height">
+        <v-avatar
+          class="mr-10"
+          color="grey darken-1"
+          size="32"
+        ></v-avatar>
+        <v-btn
+          v-for="link in links"
+          :key="link.name"
+          :to="link.path"
+          text
+        >
+          {{ link.name}}
+        </v-btn>
+<!--        <v-spacer></v-spacer>-->
+<!--        <v-responsive max-width="260">-->
+<!--          <v-text-field-->
+<!--            dense-->
+<!--            flat-->
+<!--            hide-details-->
+<!--            rounded-->
+<!--            solo-inverted-->
+<!--          ></v-text-field>-->
+<!--        </v-responsive>-->
+      </v-container>
     </v-app-bar>
 
-    <v-main>
-      <router-view></router-view>
-<!--      <HelloWorld/>-->
+    <v-main class="lighten-3">
+        <router-view></router-view>
     </v-main>
 
     <v-footer app>
@@ -59,7 +53,20 @@ export default {
   },
 
   data: () => ({
-    //
+    links: [
+      {
+        name: '首页',
+        path: '/',
+      },
+      {
+        name: '关于',
+        path: '/about',
+      },
+      {
+        name: '写博客',
+        path: '/add',
+      },
+    ],
   }),
 };
 </script>

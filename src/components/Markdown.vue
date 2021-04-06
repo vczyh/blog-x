@@ -1,13 +1,34 @@
 <template>
-  <article class="markdown-body">
-    <h1>Unicorns</h1>
-    <p>All the things</p>
-  </article>
+  <div class="markdown-body" v-html="rendered">
+<!--    <h1>Unicorns</h1>-->
+<!--    <p>All the things</p>-->
+  </div>
 </template>
 
 <script>
+import MarkdownIt from 'markdown-it';
+
 export default {
   name: 'Markdown',
+  props: ['content'],
+  data: () => ({
+    rendered: '',
+  }),
+  watch: {
+    content() {
+      this.render();
+    },
+  },
+  methods: {
+    render() {
+      const md = new MarkdownIt();
+      // console.log('mk', this.content);
+      this.rendered = md.render(this.content);
+    },
+  },
+  created() {
+    this.render();
+  },
 };
 </script>
 <style scoped>
