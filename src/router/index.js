@@ -42,7 +42,32 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Add.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/Edit.vue'),
+  },
+  {
+    path: '/tag/:id',
+    name: 'Tag',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Tags.vue'),
+    props: true,
+  },
+  {
+    path: '/tags',
+    name: 'Tags',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Tags.vue'),
+  },
+  {
+    path: '/timeline',
+    name: 'Timeline',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Timeline.vue'),
   },
 ];
 

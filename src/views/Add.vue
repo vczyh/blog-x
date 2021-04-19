@@ -1,22 +1,58 @@
 <template>
   <div>
-    <MarkdownEdit @save="save"></MarkdownEdit>
+    <v-list-item>
+      <Cover :cover="cover" @save="saveCoverSetting"></Cover>
+      <v-btn class="ml-4" depressed outlined>
+        保存
+      </v-btn>
+    </v-list-item>
+    <v-list-item>
+      <v-text-field
+        v-model="title"
+        label="标题"
+        required
+      ></v-text-field>
+    </v-list-item>
+    <v-list-item>
+      <v-text-field
+        v-model="subtitle"
+        label="副标题"
+        required
+      ></v-text-field>
+    </v-list-item>
+    <MarkdownEdit @save="saveContent"></MarkdownEdit>
   </div>
 </template>
 
 <script>
+import Cover from '@/components/Cover.vue';
 import MarkdownEdit from '@/components/MarkdownEdit.vue';
-import { addPost } from '@/api/post';
+import { addPost, updatePost } from '@/api/post';
 
 export default {
   name: 'Add',
-  components: { MarkdownEdit },
+  components: {
+    Cover,
+    MarkdownEdit,
+  },
+  data() {
+    return {
+      cover: {},
+      title: '',
+      subtitle: '',
+    };
+  },
   methods: {
-    save(value) {
-      console.log('saveeeee', value);
+    saveContent(value) {
       addPost({
-        title: 'title',
+        title: this.title,
         content: value,
+      });
+    },
+    saveCoverSetting(cover) {
+      updatePost(this.id, {
+        cover_url: cover.url,
+        cover_desc: cover.desc,
       });
     },
   },

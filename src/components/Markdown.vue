@@ -1,5 +1,5 @@
 <template>
-  <div class="markdown-body" v-html="rendered">
+  <div class="markdown-body" v-html="render">
 <!--    <h1>Unicorns</h1>-->
 <!--    <p>All the things</p>-->
   </div>
@@ -12,23 +12,30 @@ export default {
   name: 'Markdown',
   props: ['content'],
   data: () => ({
-    rendered: '',
+    // rendered: '',
   }),
-  watch: {
-    content() {
-      this.render();
-    },
-  },
-  methods: {
+  computed: {
     render() {
       const md = new MarkdownIt();
       // console.log('mk', this.content);
-      this.rendered = md.render(this.content);
+      return md.render(this.content);
     },
   },
-  created() {
-    this.render();
-  },
+  // watch: {
+  //   content() {
+  //     this.render();
+  //   },
+  // },
+  // methods: {
+  //   render() {
+  //     const md = new MarkdownIt();
+  //     // console.log('mk', this.content);
+  //     this.rendered = md.render(this.content);
+  //   },
+  // },
+  // created() {
+  //   this.render();
+  // },
 };
 </script>
 <style scoped>

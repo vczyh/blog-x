@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar
       app
       color="white"
@@ -17,26 +17,28 @@
           :to="link.path"
           text
         >
-          {{ link.name}}
+          {{ link.name }}
         </v-btn>
-<!--        <v-spacer></v-spacer>-->
-<!--        <v-responsive max-width="260">-->
-<!--          <v-text-field-->
-<!--            dense-->
-<!--            flat-->
-<!--            hide-details-->
-<!--            rounded-->
-<!--            solo-inverted-->
-<!--          ></v-text-field>-->
-<!--        </v-responsive>-->
+        <!--        <v-spacer></v-spacer>-->
+        <!--        <v-responsive max-width="260">-->
+        <!--          <v-text-field-->
+        <!--            dense-->
+        <!--            flat-->
+        <!--            hide-details-->
+        <!--            rounded-->
+        <!--            solo-inverted-->
+        <!--          ></v-text-field>-->
+        <!--        </v-responsive>-->
       </v-container>
     </v-app-bar>
 
     <v-main class="lighten-3">
-        <router-view></router-view>
+             <v-container fluid>
+      <router-view :key="key"></router-view>
+             </v-container>
     </v-main>
 
-    <v-footer app>
+    <v-footer app fixed>
       Footer
     </v-footer>
   </v-app>
@@ -51,12 +53,24 @@ export default {
   components: {
     // HelloWorld,
   },
-
+  computed: {
+    key() {
+      return this.$route.path + new Date();
+    },
+  },
   data: () => ({
     links: [
       {
         name: '首页',
         path: '/',
+      },
+      {
+        name: '标签',
+        path: '/tags',
+      },
+      {
+        name: '时间轴',
+        path: '/timeline',
       },
       {
         name: '关于',
@@ -70,3 +84,10 @@ export default {
   }),
 };
 </script>
+
+<style>
+.theme--light.v-application code {
+  background-color: initial !important;
+  color: currentColor;
+}
+</style>

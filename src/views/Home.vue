@@ -2,72 +2,74 @@
   <div class="d-flex flex-column align-center">
     <!--    <img alt="Vue logo" src="../assets/logo.png">-->
     <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-    <v-hover
-      v-for="post in posts"
-      :key="post.postId"
-      class="ma-2">
-      <v-card
-        :to="'/content/'+post.postId"
-        min-width="740"
-        outlined
-        rounded
-      >
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          height="200px"
-        ></v-img>
-        <v-card-title>{{ post.title }}</v-card-title>
-        <!--        <v-card-subtitle>subtitle</v-card-subtitle>-->
-        <v-card-text>
-          <v-row align="center" justify="end">
-            <span class="mr-4">CreatedAt 111</span>
-            <span>UpdatedAt 222</span>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-hover>
+    <post-list :posts="posts"></post-list>
+    <v-row justify="center">
+<!--      {{pagination.page}}-->
+<!--      {{pagination.len}}-->
+        <v-container class="max-width">
+          <v-pagination
+            v-if="showPagination"
+            v-model="pagination.page"
+            class="my-4"
+            :length="pagination.len"
+            :total-visible="7"
+          ></v-pagination>
+        </v-container>
+    </v-row>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import { getPost } from '@/api/post';
+import PostList from '@/components/PostList.vue';
+import { getPostList } from '@/api/post';
 
 export default {
   name: 'Home',
-  components: {},
+  components: { PostList },
   data: () => ({
-    posts: [
-      // {
-      //   id: '0',
-      //   title: 'title-0',
-      //   content: 'content-0',
-      // },
-      // {
-      //   id: '1',
-      //   title: 'title-1',
-      //   content: 'content-1',
-      // },
-      // {
-      //   id: '2',
-      //   title: 'title-2',
-      //   content: 'content-2',
-      // },
-    ],
+    posts: [],
+    pagination: {
+      page: 1,
+      len: 1,
+      pageSize: 3,
+      total: 0,
+    },
   }),
   mounted() {
-    getPost()
-      .then(((res) => {
-        console.log(res);
-        for (let i = 0; i < res.data.length; i += 1) {
-          const post = res.data[i];
-          this.posts.push({
-            postId: post.post_id,
-            title: post.title,
-            content: post.content,
-          });
-        }
-      }));
+    this.getPostList();
+  },
+  watch: {
+    'pagination.page': function () {
+      this.getPostList();
+    },
+  },
+  computed: {
+    showPagination() {
+      return this.pagination.total > this.pagination.pageSize;
+    },
+  },
+  methods: {
+    async  getPostList() {
+      const res = await getPostList('', this.pagination.page, this.pagination.pageSize);
+      this.pagination.page = res.data.page;
+      this.pagination.len = res.data.page_number;
+      this.pagination.total = res.data.total;
+      const posts = [];
+      for (let i = 0; i < res.data.list.length; i += 1) {
+        const post = res.data.list[i];
+        posts.push({
+          postId: post.post_id,
+          title: post.title,
+          subtitle: post.subtitle,
+          content: post.content,
+          coverURL: post.cover_url,
+          coverDesc: post.cover_desc,
+          createdAt: post.created_at,
+          updatedAt: post.updated_at,
+        });
+      }
+      this.posts = posts;
+    },
   },
 };
 </script>

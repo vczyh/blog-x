@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mavon-editor v-model="value" @save="$emit('save',value)"/>
+    <mavon-editor class="editor" v-model="value" @save="$emit('save',value)" @change="change"/>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   props: ['content'],
   data() {
     return {
-      value: '',
+      value: this.content,
     };
   },
   watch: {
@@ -21,8 +21,14 @@ export default {
       this.value = this.content;
     },
   },
-  mounted() {
-    this.value = this.content;
+  // mounted() {
+  //   this.value = this.content;
+  // },
+
+  methods: {
+    change(value, render) {
+      this.$emit('change', value, render);
+    },
   },
 
 };
@@ -30,4 +36,8 @@ export default {
 
 <style scoped>
 @import '~mavon-editor/dist/css/index.css';
+.editor{
+  /*height: 500px;*/
+}
+
 </style>
