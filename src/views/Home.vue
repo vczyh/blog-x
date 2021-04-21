@@ -1,20 +1,16 @@
 <template>
   <div class="d-flex flex-column align-center">
-    <!--    <img alt="Vue logo" src="../assets/logo.png">-->
-    <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <post-list :posts="posts"></post-list>
     <v-row justify="center">
-<!--      {{pagination.page}}-->
-<!--      {{pagination.len}}-->
-        <v-container class="max-width">
-          <v-pagination
-            v-if="showPagination"
-            v-model="pagination.page"
-            class="my-4"
-            :length="pagination.len"
-            :total-visible="7"
-          ></v-pagination>
-        </v-container>
+      <v-container class="max-width">
+        <v-pagination
+          v-if="showPagination"
+          v-model="pagination.page"
+          class="my-4"
+          :length="pagination.len"
+          :total-visible="7"
+        ></v-pagination>
+      </v-container>
     </v-row>
   </div>
 </template>
@@ -31,7 +27,7 @@ export default {
     pagination: {
       page: 1,
       len: 1,
-      pageSize: 3,
+      pageSize: 10,
       total: 0,
     },
   }),
@@ -49,7 +45,7 @@ export default {
     },
   },
   methods: {
-    async  getPostList() {
+    async getPostList() {
       const res = await getPostList('', this.pagination.page, this.pagination.pageSize);
       this.pagination.page = res.data.page;
       this.pagination.len = res.data.page_number;
@@ -66,6 +62,7 @@ export default {
           coverDesc: post.cover_desc,
           createdAt: post.created_at,
           updatedAt: post.updated_at,
+          tags: post.tags,
         });
       }
       this.posts = posts;

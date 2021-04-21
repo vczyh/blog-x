@@ -1,11 +1,14 @@
 <template>
   <div class="d-flex flex-column align-center">
-    <div class="tags ma-2">
+    <div class="mb-1" :style="style">
       <v-btn
         v-for="tag in tags"
         :key="tag.tagId"
-        :to="'/tag/'+tag.tagId"
-        text
+        :to="{name: 'Tag', params:{id:tag.tagId}}"
+        outlined
+        class="ma-1"
+        color="indigo"
+        small
       >
         {{ tag.name }}
       </v-btn>
@@ -19,7 +22,7 @@
           class="my-4"
           :length="pagination.len"
           :total-visible="7"
-        ></v-pagination>
+        />
       </v-container>
     </v-row>
   </div>
@@ -58,6 +61,11 @@ export default {
   computed: {
     showPagination() {
       return this.pagination.total > this.pagination.pageSize;
+    },
+    style() {
+      return {
+        width: this.$vuetify.breakpoint.mobile ? '90vw' : '800px',
+      };
     },
   },
   methods: {
@@ -98,6 +106,7 @@ export default {
           coverDesc: post.cover_desc,
           createdAt: post.created_at,
           updatedAt: post.updated_at,
+          tags: post.tags,
         });
       }
       this.posts = posts;
@@ -107,7 +116,4 @@ export default {
 </script>
 
 <style scoped>
-.tags {
-  width: 740px
-}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="timeline">
+  <div class="timeline" :style="style">
     <!--    <div class="font-weight-bold ml-8 mb-2">-->
     <!--      Today-->
     <!--    </div>-->
@@ -45,6 +45,13 @@ export default {
   mounted() {
     this.getPostList();
   },
+  computed: {
+    style() {
+      return {
+        width: this.$vuetify.breakpoint.mobile ? '90vw' : '800px',
+      };
+    },
+  },
   methods: {
     timeFormat(str) {
       return monthAndDay(str);
@@ -73,7 +80,6 @@ export default {
 
 <style scoped>
 .timeline {
-  max-width: 940px;
   margin: 0 auto
 }
 .timeline .btn {
@@ -81,6 +87,6 @@ export default {
   text-transform:initial;
   font-size: 16px;
   font-weight: normal;
-  color: #7f7f7f;
+  color: #7F7F7F;
 }
 </style>
